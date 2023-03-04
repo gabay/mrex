@@ -4,7 +4,7 @@ Read and write regular expressions easily.
 
 ```python
 import mrex
-id_re = mrex.exactly('id: ').and_(rex.digits.repeat(5).group_as('id'))
+id_re = mrex.exactly('id: ').and_(mrex.DIGITS.group_as('id'))
 print(id_re.find('id: 12345').group('id'))  # prints '12345'
 ```
 
