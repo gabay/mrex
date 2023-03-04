@@ -7,7 +7,7 @@ from typing import Iterator, Optional
 class MagicRegex:
     def __init__(self, text: str):
         self._text = text
-        self._compiled_re = None
+        self._regex = None
 
     @property
     def text(self):
@@ -17,9 +17,9 @@ class MagicRegex:
 
     @property
     def regex(self):
-        if self._compiled_re is None:
-            self._compiled_re = re.compile(self.text)
-        return self._compiled_re
+        if self._regex is None:
+            self._regex = re.compile(self.text)
+        return self._regex
 
     def find(self, text: str) -> Optional[re.Match[str]]:
         return self.regex.search(text)
@@ -65,3 +65,11 @@ def char_in(chars: str) -> MagicRegex:
 def char_not_in(chars: str) -> MagicRegex:
     escaped_chars = re.escape(chars)
     return MagicRegex(f'[^{escaped_chars}]')
+
+def any_of(options: list[str | MagicRegex]) -> MagicRegex:
+    options_objects = [
+        option if isinstance(option, MagicRegex) else exactly(option)
+        for option in options
+    ]
+    any_of_str = '|'.join([f'(?:{match.text})' for match in options_objects])
+    return MagicRegex(any_of_str)
