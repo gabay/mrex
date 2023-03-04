@@ -1,30 +1,38 @@
-from .mrex import MagicRegex
+import string
 
+from .mrex import MagicRegex, char_in
 
-def digit():
-    return MagicRegex('\d')
+# A single digit
+DIGIT = MagicRegex(r'\d')
+# One or mor digits
+DIGITS = DIGIT.repeat_one_or_more()
 
-def non_digit():
-    return MagicRegex('\D')
+# Any non-digit character
+NON_DIGIT = MagicRegex(r'\D')
+# One or more non-digit characters
+NON_DIGITS = NON_DIGIT.repeat_one_or_more()
 
-def character():
-    return MagicRegex('\w')
+# A single character in [a-zA-Z0-9_] (uppercase, lowercase, digit, or '_')
+CHAR = MagicRegex(r'\w')
+# One or more characters in [a-zA-Z0-9_] (uppercase, lowercase, digit, or '_')
+CHARS = CHAR.repeat_one_or_more()
 
-def non_character():
-    return MagicRegex('\W')
+# A single character not in [a-zA-Z0-9_] (uppercase, lowercase, digit, or '_')
+NON_CHAR = MagicRegex(r'\W')
+# One or more characters not in [a-zA-Z0-9_] (uppercase, lowercase, digit, or '_')
+NON_CHARS = NON_CHAR.repeat_one_or_more()
 
-def whitespace():
-    return MagicRegex('\s')
+# A single whitespace character
+SPACE = MagicRegex(r'\s')
+# One or more whitespace characters
+SPACES = SPACE.repeat_one_or_more()
 
-def non_space():
-    return MagicRegex('\S')
+# A single non-whitespace character
+NON_SPACE = MagicRegex(r'\S')
+# One or more non-whitespace characters
+NON_SPACES = NON_SPACE.repeat_one_or_more()
 
-def ipv4():
-    ipv4_number = MagicRegex(r'25[0-5]').or_(r'2[0-4]\d').or_(r'1\d\d').or_(r'[1-9]\d').or_(r'\d')
-    number_dot = ipv4_number.and_(r'\.')
-    return number_dot.repeat(3).and_(ipv4_number)
-
-def email():
-    user = MagicRegex(r'[\w-\.]').repeat_one_or_more()
-    domain = MagicRegex(r'[\w-]').repeat_one_or_more().and_(r'\.').repeat_one_or_more().and_(r'\w{2,4}')
-    return user.and_('@').and_(domain)
+# A single lowercase character
+LOWERCASE = char_in(string.ascii_lowercase)
+# A single uppercase character
+UPPERCASE = char_in(string.ascii_uppercase)
