@@ -10,13 +10,9 @@ class MagicRegex:
         self._regex = None
 
     @property
-    def text(self):
-        return self._text
-
-    @property
     def regex(self):
         if self._regex is None:
-            self._regex = re.compile(self.text)
+            self._regex = re.compile(self._text, re.DOTALL)
         return self._regex
 
     # Match
@@ -49,6 +45,8 @@ class MagicRegex:
     def group_as(self, name: str) -> MagicRegex:
         return MagicRegex(f"(?P<{name}>{self._text})")
 
+    group = group_as
+
     # Concat
 
     def or_(self, other: str | MagicRegex) -> MagicRegex:
@@ -80,5 +78,5 @@ def any_of(options: list[str | MagicRegex]) -> MagicRegex:
         option if isinstance(option, MagicRegex) else exactly(option)
         for option in options
     ]
-    any_of_str = "|".join([f"(?:{match.text})" for match in options_objects])
+    any_of_str = "|".join([f"(?:{match._text})" for match in options_objects])
     return MagicRegex(any_of_str)
