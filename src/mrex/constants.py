@@ -1,6 +1,4 @@
-import string
-
-from .mrex import MagicRegex, char_in
+from .mrex import MagicRegex
 
 # A single digit
 DIGIT = MagicRegex(r"\d")
@@ -32,7 +30,7 @@ NON_SPACE = MagicRegex(r"\S")
 # One or more non-whitespace characters
 NON_SPACES = NON_SPACE.repeat_one_or_more()
 
-# A single lowercase character
-LOWERCASE = char_in(string.ascii_lowercase)
-# A single uppercase character
-UPPERCASE = char_in(string.ascii_uppercase)
+# Any character
+ANY = MagicRegex(r".")
+# Any character, zero or more times
+ALL = ANY.repeat_zero_or_more()
