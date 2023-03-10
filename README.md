@@ -4,8 +4,15 @@ Read and write regular expressions easily.
 
 ```python
 import mrex
-id_re = mrex.exactly('id: ').and_(mrex.DIGITS.group_as('id'))
-print(id_re.find('id: 12345').group('id'))  # prints '12345'
+
+# Find
+id_re = mrex.exactly("id: ").and_(mrex.DIGITS.group_as("id"))
+id_str = id_re.find("id: 12345").group("id")
+# id_str == "12345"
+
+# Split
+words = mrex.NON_CHARS.split("It's just a flesh wound...")
+# words == ["It", "s", "just", "a", "flesh", "wound", ""]
 ```
 
 # Installation
@@ -13,6 +20,16 @@ print(id_re.find('id: 12345').group('id'))  # prints '12345'
 ```bash
 pip install mrex
 ```
+
+#  Development
+
+* Download source
+* Install development dependencies: `flit install -s --deps develop`
+* Format code: `black .`
+* Run tests: `pytest`
+* Bump version in `src/mrex/__init__.py`
+* Build package: `flit build`
+* Deploy: `flit publish`
 
 # Thanks
 
