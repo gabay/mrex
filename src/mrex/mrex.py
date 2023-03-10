@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
+from typing import Iterable, Optional
 
 
 class MagicRegex:
@@ -24,8 +24,13 @@ class MagicRegex:
     def find(self, text: str) -> Optional[re.Match[str]]:
         return self.regex.search(text)
 
-    def find_all(self, text: str) -> list[re.Match[str]]:
-        return self.regex.findall(text)
+    def find_all(self, text: str) -> Iterable[re.Match[str]]:
+        return self.regex.finditer(text)
+
+    # Split
+
+    def split(self, text: str, maxsplit: int = 0) -> list[str]:
+        return self.regex.split(text, maxsplit)
 
     # Repeat
 

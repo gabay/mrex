@@ -120,7 +120,19 @@ def test_optional_should_return_match_on_success():
 
 
 def test_find_all_should_return_multiple_matches():
-    assert mrex.DIGITS.find_all("1 23 456") == ["1", "23", "456"]
+    matches = mrex.DIGITS.find_all("1 23 456")
+    assert [match.group() for match in matches] == ["1", "23", "456"]
+
+
+# split()
+
+
+def test_split_should_return_items_between_matches():
+    assert mrex.char_in("136").split("123456") == ["", "2", "45", ""]
+
+
+def test_split_should_return_one_item_on_no_match():
+    assert mrex.exactly("foo").split("bar") == ["bar"]
 
 
 # group_as()
